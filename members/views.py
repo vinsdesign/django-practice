@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
 from .models import Member
+from django.db.models import Q
 
 
 def members(request):
@@ -31,10 +32,19 @@ def main(request):
 #     return HttpResponse(template.render())
 
 
+# def testing(request):
+#     mydata = Member.objects.filter(Q(firstname="anisa") | Q(firstname="dode")).values()
+#     template = loader.get_template("template.html")
+#     context = {
+#         "mymembers": mydata,
+#     }
+#     return HttpResponse(template.render(context, request))
+
+
 def testing(request):
-    mymembers = Member.objects.all().values()
+    mydata = Member.objects.all().order_by("firstname").values()
     template = loader.get_template("template.html")
     context = {
-        "mymembers": mymembers,
+        "mymembers": mydata,
     }
     return HttpResponse(template.render(context, request))
